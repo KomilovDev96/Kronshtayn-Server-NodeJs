@@ -17,7 +17,13 @@ class ContactController {
                 return res.json({ message: "success", })
             }
         } else {
-            return res.status(400).json({ message: "Нету Файла" })
+            const news = new Contact({
+                informations: rest,
+            })
+            const newnews = news.save()
+            if (newnews) {
+                return res.json({ message: "Скора с вами свяжутся, напоминаем вы отправили толька без файла!", })
+            }
         }
     }
     async delete(req, res) {
@@ -34,12 +40,12 @@ class ContactController {
     async read(req, res) {
         try {
             await Contact.findById(req.params.id)
-            .then((data) => {
-                res.status(200).json(data)
-            }).catch((err) => {
-                res.status(500).json({ message: "Ошибка сервера", err })
-            })
-        }catch(err){
+                .then((data) => {
+                    res.status(200).json(data)
+                }).catch((err) => {
+                    res.status(500).json({ message: "Ошибка сервера", err })
+                })
+        } catch (err) {
             res.status(500).json({ message: "Ошибка сервера", err })
         }
     }
@@ -48,7 +54,7 @@ class ContactController {
             Contact.find().then(data => {
                 res.status(200).json(data)
             })
-        }catch(err){
+        } catch (err) {
             res.status(500).json({ message: "Ошибка сервера", err })
         }
     }
