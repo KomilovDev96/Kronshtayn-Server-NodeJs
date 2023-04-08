@@ -63,6 +63,25 @@ class MaterialController {
             res.status(500).json({ message: "Ошибка сервера", err })
         }
     }
+    async read(req, res) {
+        await Materials.findById(req.params.id)
+            .then((data) => {
+                res.status(200).json(data)
+            }).catch((err) => {
+                res.status(500).json({ message: "Ошибка сервера", err })
+            })
+    }
+    async getAll(req, res) {
+        try {
+            Materials.find().then(data => {
+                res.status(200).json(data);
+            }).catch(err => {
+                res.status(400).json(err);
+            })
+        }catch(err){
+            res.status(500).json({ message: "Ошибка сервера", err })
+        }
+    }
 }
 
 

@@ -9,4 +9,6 @@ const auth = require("../middleware/auth.middleware");
 router.post('/create', auth, authAdmin, upload.single('file'), MaterialController.create);
 router.delete('/delete/:id', auth, authAdmin, upload.single('file'), MaterialController.delete);
 router.put('/update/:id', auth, authAdmin, upload.single('file'), MaterialController.update);
+router.get('/read/:id', MaterialController.read);
+router.get('/getall', MaterialController.getAll);
 module.exports = router;
