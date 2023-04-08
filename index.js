@@ -20,7 +20,6 @@ i18next
 // Router imports
 const authRouter = require('./routes/auth.route');
 const proizRouter = require('./routes/proiz.route');
-const categRouter = require('./routes/category.route');
 const uslugiRouter = require('./routes/uslugi.route');
 const newsRouter = require('./routes/news.route');
 const contactRouter = require('./routes/contact.route');
@@ -43,7 +42,6 @@ app.use('/fileuploads', express.static(path.join(__dirname, 'fileuploads')));
 //Router
 app.use("/api/auth", authRouter)
 app.use("/api/proiz", proizRouter)
-app.use("/api/categ", categRouter)
 app.use("/api/uslugi", uslugiRouter)
 app.use("/api/news", newsRouter)
 app.use("/api/contact", contactRouter)

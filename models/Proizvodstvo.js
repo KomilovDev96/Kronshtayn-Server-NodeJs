@@ -19,11 +19,7 @@ const Proiz = new Schema({
         type: Date,
         default: Date.now()
     },
-    categoryId: {
-        type: ObjectId,
-        ref: "category"
-    },
-    images: [{type: ObjectId, ref: 'File'}],
+    images: [Object],
 })
 
 module.exports = model('Proiz', Proiz)
