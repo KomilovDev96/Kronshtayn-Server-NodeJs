@@ -1,5 +1,14 @@
 const Proiz = require("../models/Proizvodstvo");
 const fs = require('fs')
+const fileSizeFomatter = (bytes, decimal) => {
+    if(bytes === 0) {
+        return '0 Bytes'
+    }
+    const dm = decimal || 2
+    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'YB', 'ZB'];
+    const index = Math.floor(Math.log(bytes) / Math.log(1000));
+    return parseFloat((bytes / Math.pow(1000, index)).toFixed(dm)) + ' ' + sizes[index]
+}
 class ProizController {
     async create(req, res) {
         try {
@@ -12,7 +21,17 @@ class ProizController {
                 ...rest
             } = req.body;
 
-            if (req.file !== undefined) {
+            if (req.files !== undefined) {
+                let filesArray = [];
+                req.files.forEach(element => {
+                    const file = {
+                        fileName: element.originalname,
+                        filePath: element.path,
+                        fileType: element.mimetype,
+                        fileSize: fileSizeFomatter(element.size, 2)
+                    }
+                    filesArray.push(file)
+                })
                 const proiz = new Proiz({
                     ru: {
                         text: textRu,
@@ -23,10 +42,7 @@ class ProizController {
                         title: titleUz
                     },
                     categoryId: categoryId,
-                    images: {
-                        name: req.file.filename,
-                        path: req.file.path
-                    },
+                    images: filesArray,
                     parametrs: rest
                 })
                 const newproiz = proiz.save()

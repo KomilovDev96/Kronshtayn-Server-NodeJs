@@ -23,14 +23,7 @@ const Proiz = new Schema({
         type: ObjectId,
         ref: "category"
     },
-    images: {
-        name: {
-            type: String,
-        },
-        path: {
-            type: String,
-        }
-    },
+    images: [{type: ObjectId, ref: 'File'}],
 })
 
 module.exports = model('Proiz', Proiz)

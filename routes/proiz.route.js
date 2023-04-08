@@ -7,7 +7,7 @@ const auth = require("../middleware/auth.middleware");
 
 
 /* GET home page. */
-router.post('/create', auth, authAdmin, upload.single('file'), proizController.create);
+router.post('/create', auth, authAdmin, upload.array('files'), proizController.create);
 router.delete('/delete/:id', auth, authAdmin, proizController.delete)
 router.put('/update/:id', auth, authAdmin, upload.single('file'), proizController.update)
 router.get('/read/:id', proizController.read);
