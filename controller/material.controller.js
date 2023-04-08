@@ -4,7 +4,6 @@ class MaterialController {
     async create(req, res) {
         try {
             const { settings, proizId } = req.body;
-            console.log(req.body);
             if (req.file !== undefined) {
                 const mater = new Materials({
                     translations: settings,
@@ -25,6 +24,43 @@ class MaterialController {
 
         } catch (err) {
             return res.status(500).json({ message: "Server Error", code: err, status: 500 })
+        }
+    }
+    async delete(req, res) {
+        await Materials.findOneAndRemove(req.params.id)
+            .then((data) => {
+                fs.unlinkSync(`./${data.images.path}`)
+            })
+            .then(() => {
+
+            }).catch((err) => {
+                res.status(500).json({ message: "Ошибка сервера", err })
+            })
+    }
+    async update(req, res) {
+        const { settings, proizId } = req.body;
+        try {
+            if (req.file !== undefined) {
+                const newsId = await News.Materials(req.params.id);
+                fs.unlinkSync(`./${newsId.images.path}`)
+                await News.findOneAndUpdate(req.params.id, {
+                    translations: settings,
+                    proizId: proizId,
+                    images: {
+                        name: req.file.filename,
+                        path: req.file.path
+                    }
+                })
+                res.json({ msg: "Update Success" })
+            } else {
+                await News.findOneAndUpdate(req.params.id, {
+                    translations: settings,
+                    proizId: proizId,
+                })
+                res.json({ msg: "Update Success" })
+            }
+        } catch (err) {
+            res.status(500).json({ message: "Ошибка сервера", err })
         }
     }
 }
