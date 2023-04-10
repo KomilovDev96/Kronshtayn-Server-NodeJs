@@ -1,12 +1,6 @@
 const { Schema, model, ObjectId } = require("mongoose")
 
 const Proiz = new Schema({
-    parametrs: {
-        title: String,
-        material: String,
-        talshina: String,
-        vilet: String,
-    },
     ru: {
         title: String,
         text: String
@@ -19,7 +13,12 @@ const Proiz = new Schema({
         type: Date,
         default: Date.now()
     },
-    images: [Object],
+    images: [{
+        fileName: String,
+        filePath: String,
+        fileType: String,
+        fileSize: String,
+    }],
 })
 
 module.exports = model('Proiz', Proiz)
