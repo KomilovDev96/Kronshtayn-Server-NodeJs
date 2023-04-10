@@ -7,7 +7,7 @@ const Materials = new Schema({
             value: { type: String, required: true },
             key: { type: String, required: true },
         }
-],
+    ],
     date: {
         type: Date,
         default: Date.now()
