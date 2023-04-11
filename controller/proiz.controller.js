@@ -13,6 +13,7 @@ const fileSizeFomatter = (bytes, decimal) => {
 };
 class ProizController {
     async create(req, res) {
+        console.log(req.files);
         try {
             const { titleUz, titleRu, textUz, textRu } = req.body;
             if (req.files !== undefined) {
