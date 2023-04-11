@@ -15,7 +15,6 @@ class ProizController {
     async create(req, res) {
         try {
             const { titleUz, titleRu, textUz, textRu } = req.body;
-
             if (req.files !== undefined) {
                 let filesArray = [];
                 req.files.forEach((element) => {
