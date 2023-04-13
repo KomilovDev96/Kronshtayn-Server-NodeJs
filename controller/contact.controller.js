@@ -27,7 +27,7 @@ class ContactController {
         }
     }
     async delete(req, res) {
-        await Contact.findOneAndRemove(req.params.id)
+        await Contact.findByIdAndDelete(req.params.id)
             .then((data) => {
                 fs.unlinkSync(`./${data.files.path}`)
             })

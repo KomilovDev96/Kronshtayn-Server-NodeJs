@@ -24,7 +24,7 @@ class NewsController {
         }
     }
     async delete(req, res) {
-        await Sertifacate.findOneAndRemove(req.params.id)
+        await Sertifacate.findByIdAndDelete(req.params.id)
             .then((data) => {
                 fs.unlinkSync(`./${data.images.path}`)
             })

@@ -35,7 +35,7 @@ class UslugiController {
         }
     }
     async delete(req, res) {
-        await Uslugi.findOneAndRemove(req.params.id)
+        await Uslugi.findByIdAndDelete(req.params.id)
             .then((data) => {
                 fs.unlinkSync(`./${data.images.path}`)
             })

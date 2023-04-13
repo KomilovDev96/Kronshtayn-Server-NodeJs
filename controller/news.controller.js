@@ -34,7 +34,8 @@ class NewsController {
         }
     }
     async delete(req, res) {
-        await News.findOneAndRemove(req.params.id)
+        console.log(req.params.id);
+        await News.findByIdAndDelete(req.params.id)
             .then((data) => {
                 fs.unlinkSync(`./${data.images.path}`)
             })

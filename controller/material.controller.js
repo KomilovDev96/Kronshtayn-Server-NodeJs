@@ -28,7 +28,7 @@ class MaterialController {
         }
     }
     async delete(req, res) {
-        await Materials.findOneAndRemove(req.params.id)
+        await Materials.findByIdAndDelete(req.params.id)
             .then((data) => {
                 fs.unlinkSync(`./${data.images.path}`)
             })

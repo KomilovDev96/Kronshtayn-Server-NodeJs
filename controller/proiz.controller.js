@@ -77,7 +77,7 @@ class ProizController {
                 fs.unlinkSync(`./${element.filePath}`);
             });
         })
-        await Proiz.findOneAndRemove(req.params.id)
+        await Proiz.findByIdAndDelete(req.params.id)
             .then(() => {
                 res.status(200).json({ message: "Удалился" });
             })
