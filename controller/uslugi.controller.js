@@ -96,7 +96,7 @@ class UslugiController {
 
     async getAll(req, res) {
         try {
-            Uslugi.find().then(data => res.json(data))
+            Uslugi.find().sort({date: -1}).then(data => res.json(data))
         } catch (err) {
             res.status(500).json({ message: "Ошибка сервера", err })
         }

@@ -85,7 +85,7 @@ class MaterialController {
     }
     async getAll(req, res) {
         try {
-            Materials.find().then(data => {
+            Materials.sort({date: -1}).find().then(data => {
                 res.json(data);
             }).catch(err => res.status(400).json({ message: "Ошибка при запросе", err }))
         } catch (err) {

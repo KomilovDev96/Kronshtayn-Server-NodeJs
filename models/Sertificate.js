@@ -9,6 +9,10 @@ const Sertifacate = new Schema({
             type: String,
         }
     },
+    date: {
+        type: Date,
+        default: Date.now()
+    },
 })
 
 module.exports = model('Sertifacate', Sertifacate)

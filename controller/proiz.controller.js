@@ -156,33 +156,6 @@ class ProizController {
                         as: 'materials'
                     }
                 },
-                // {
-                //     $unwind: {
-                //         path: '$materials'            // faqat shu movies borlarni ko'rsatadi
-                //     }
-                // },
-                // {
-                //     $group: {
-                //         _id: {
-                //             _id: '$_id',
-                //             ru: '$ru',
-                //             uz: '$ru',
-                //             images: "$images"
-                //         },
-                //         materials: {
-                //             $push: '$materials'
-                //         }
-                //     }
-                // },
-                // { // qisqartirish uslubi 
-                //     $project: {
-                //         _id: '$_id._id',
-                //         trans: '$_id.translations',
-                //         ru: '$_id.ru',
-                //         uz: '$_id.uz',
-                //         materials: '$materials',
-                //     }
-                // }
             ]).then((data) => res.json(data));
         } catch (err) {
             res.status(500).json({ message: "Ошибка сервера", err });
@@ -190,7 +163,7 @@ class ProizController {
     }
     async getAll(req, res) {
         try {
-            Proiz.find().then((data) => res.json(data));
+            Proiz.find().sort({date: -1}).then((data) => res.json(data));
         } catch (err) {
             res.status(500).json({ message: "Ошибка сервера", err });
         }

@@ -94,7 +94,7 @@ class PortfolioController {
 
     async getAll(req, res) {
         try {
-            Portfolio.find().then(data => res.json(data))
+            Portfolio.find().sort({date: -1}).then(data => res.json(data))
         } catch (err) {
             res.status(500).json({ message: "Ошибка сервера", err })
         }
