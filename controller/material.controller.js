@@ -16,7 +16,7 @@ class MaterialController {
                 })
                 const newmater = await mater.save()
                 if (newmater) {
-                    return res.json({ message: "success", newmater })
+                    return res.json({ message: "success"})
                 }
             }
             else {
