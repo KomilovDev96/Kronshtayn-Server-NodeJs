@@ -153,24 +153,24 @@ class ProizController {
                         as: 'materials'
                     }
                 },
-                {
-                    $unwind: {
-                        path: '$materials'            // faqat shu movies borlarni ko'rsatadi
-                    }
-                },
-                {
-                    $group: {
-                        _id: {
-                            _id: '$_id',
-                            ru: '$ru',
-                            uz: '$ru',
-                            images: "$images"
-                        },
-                        materials: {
-                            $push: '$materials'
-                        }
-                    }
-                },
+                // {
+                //     $unwind: {
+                //         path: '$materials'            // faqat shu movies borlarni ko'rsatadi
+                //     }
+                // },
+                // {
+                //     $group: {
+                //         _id: {
+                //             _id: '$_id',
+                //             ru: '$ru',
+                //             uz: '$ru',
+                //             images: "$images"
+                //         },
+                //         materials: {
+                //             $push: '$materials'
+                //         }
+                //     }
+                // },
                 // { // qisqartirish uslubi 
                 //     $project: {
                 //         _id: '$_id._id',
@@ -187,20 +187,7 @@ class ProizController {
     }
     async getAll(req, res) {
         try {
-            Proiz.aggregate([
-                {
-                    $group: {
-                        _id: {
-                            _id: "$_id",
-                            ru: "$ru",
-                            uz: "$uz",
-                            images: "$images",
-                            date: "$date",
-                            parametrs: "$parametrs",
-                        },
-                    },
-                },
-            ]).then((data) => res.json(data));
+            Proiz.find().then((data) => res.json(data));
         } catch (err) {
             res.status(500).json({ message: "Ошибка сервера", err });
         }
