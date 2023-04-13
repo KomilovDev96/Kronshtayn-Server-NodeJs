@@ -6,9 +6,9 @@ const authAdmin = require("../middleware/adminAuth");
 const auth = require("../middleware/auth.middleware");
 
 /* GET home page. */
-router.post('/create', upload.single('file'), MaterialController.create);
-router.delete('/delete/:id', upload.single('file'), MaterialController.delete);
-router.put('/update/:id', upload.single('file'), MaterialController.update);
+router.post('/create', auth, authAdmin, upload.single('file'), MaterialController.create);
+router.delete('/delete/:id', auth, authAdmin, upload.single('file'), MaterialController.delete);
+router.put('/update/:id', auth, authAdmin, upload.single('file'), MaterialController.update);
 router.get('/read/:id', MaterialController.read);
 router.get('/getall', MaterialController.getAll);
 router.get('/getall/proiz', MaterialController.getAllProiz);
