@@ -4,9 +4,10 @@ class MaterialController {
     async create(req, res) {
         try {
             const { settings, proizId } = req.body;
+            const ParseSttings = JSON.parse(settings)
             if (req.file !== undefined) {
                 const mater = new Materials({
-                    translations: settings,
+                    translations: ParseSttings,
                     proizId: proizId,
                     images: {
                         name: req.file.filename,
@@ -15,7 +16,7 @@ class MaterialController {
                 })
                 const newmater = await mater.save()
                 if (newmater) {
-                    return res.json({ message: "success", })
+                    return res.json({ message: "success", newmater })
                 }
             }
             else {
