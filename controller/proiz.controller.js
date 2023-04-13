@@ -86,6 +86,7 @@ class ProizController {
             });
     }
     async read(req, res) {
+        
         await Proiz.findById(req.params.id)
             .then((data) => {
                 res.status(200).json(data);

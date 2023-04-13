@@ -12,7 +12,7 @@ class NewsController {
                 })
                 const newsertif = sert.save()
                 if (newsertif) {
-                    return res.json({ message: "success", })
+                    return res.json({ message: "success", newsertif})
                 }
             }
             else {
