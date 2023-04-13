@@ -55,8 +55,9 @@ class MaterialController {
                 })
                 res.json({ msg: "Update Success" })
             } else {
+                const ParseSttings = JSON.parse(settings)
                 await Materials.findOneAndUpdate(req.params.id, {
-                    translations: settings,
+                    translations: ParseSttings,
                     proizId: proizId,
                 })
                 res.json({ msg: "Update Success" })
