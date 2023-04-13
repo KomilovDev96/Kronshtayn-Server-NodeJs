@@ -16,7 +16,7 @@ class MaterialController {
                 })
                 const newmater = await mater.save()
                 if (newmater) {
-                    return res.json({ message: "success"})
+                    return res.json({ message: "success" })
                 }
             }
             else {
@@ -43,10 +43,10 @@ class MaterialController {
         try {
             if (req.file !== undefined) {
                 const meterId = await Materials.findById(req.params.id);
-                console.log(meterId);
                 fs.unlinkSync(`./${meterId.images.path}`)
+                const ParseSttings = JSON.parse(settings)
                 await Materials.findOneAndUpdate(req.params.id, {
-                    translations: settings,
+                    translations: ParseSttings,
                     proizId: proizId,
                     images: {
                         name: req.file.filename,
