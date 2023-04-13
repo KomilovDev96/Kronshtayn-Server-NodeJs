@@ -97,7 +97,7 @@ class ProizController {
     async update(req, res) {
         const { titleUz, titleRu, textUz, textRu } = req.body;
         try {
-            if (req.files !== undefined) {
+            if (req.files.length > 0) {
                 await Proiz.findById(req.params.id).then(data => {
                     data.images.forEach((element) => {
                         fs.unlinkSync(`./${element.filePath}`);
@@ -126,6 +126,8 @@ class ProizController {
                 });
                 res.json({ msg: "Update Success" });
             } else {
+               const oneProizvod =  await Proiz.findById(req.params.id)
+               console.log(oneProizvod);
                 await Proiz.findOneAndUpdate(req.params.id, {
                     ru: {
                         text: textRu,
