@@ -24,6 +24,7 @@ const uslugiRouter = require('./routes/uslugi.route');
 const newsRouter = require('./routes/news.route');
 const contactRouter = require('./routes/contact.route');
 const materialRouter = require('./routes/material.route');
+const sertificateRouter = require('./routes/sertificate.route');
 
 const app = express()
 
@@ -46,6 +47,7 @@ app.use("/api/uslugi", uslugiRouter)
 app.use("/api/news", newsRouter)
 app.use("/api/contact", contactRouter)
 app.use("/api/material", materialRouter)
+app.use("/api/sertificate", sertificateRouter)
 
 const PORT = process.env.PORT || "3000"
 const start = async () => {

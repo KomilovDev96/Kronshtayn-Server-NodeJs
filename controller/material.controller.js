@@ -6,28 +6,7 @@ class MaterialController {
             const { settings, proizId } = req.body;
             if (req.file !== undefined) {
                 const mater = new Materials({
-                    translations: [
-                        {
-                            ru: {
-                                "value": "ширина:22",
-                                "key": "26"
-                            },
-                            uz: {
-                                "value": "qweqweqw:222",
-                                "key": "26"
-                            }
-                        },
-                        {
-                            ru: {
-                                "value": "Талшиана:33",
-                                "key": "26"
-                            },
-                            uz: {
-                                "value": "qaliasdasdsanligi:222",
-                                "key": "26"
-                            }
-                        }
-                    ],
+                    translations: settings,
                     proizId: proizId,
                     images: {
                         name: req.file.filename,
@@ -59,15 +38,15 @@ class MaterialController {
             })
     }
     async update(req, res) {
-        console.log(req.body);
+        const { settings, proizId } = req.body
         try {
             if (req.file !== undefined) {
                 const meterId = await Materials.findById(req.params.id);
                 console.log(meterId);
                 fs.unlinkSync(`./${meterId.images.path}`)
                 await Materials.findOneAndUpdate(req.params.id, {
-                    translations: req.body.settings,
-                    proizId: req.body.proizId,
+                    translations: settings,
+                    proizId: proizId,
                     images: {
                         name: req.file.filename,
                         path: req.file.path
@@ -76,8 +55,8 @@ class MaterialController {
                 res.json({ msg: "Update Success" })
             } else {
                 await Materials.findOneAndUpdate(req.params.id, {
-                    translations: req.body.settings,
-                    proizId: req.body.proizId,
+                    translations: settings,
+                    proizId: proizId,
                 })
                 res.json({ msg: "Update Success" })
             }
