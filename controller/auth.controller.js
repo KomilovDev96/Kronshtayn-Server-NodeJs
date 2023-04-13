@@ -15,7 +15,7 @@ class AuthController {
                 return res.status(400).json({ message: `Пароль нотогри!` });
             }
             const token = jwt.sign({ id: user.id }, process.env.SECRET_KEY, {
-                expiresIn: "1h",
+                expiresIn: "24h",
             });
             return res.json({
                 token,
