@@ -95,20 +95,8 @@ class NewsController {
 
     async getAll(req, res) {
         try {
-            News.aggregate([
-                {
-                    $group: {
-                        _id: {
-                            _id: '$_id',
-                            ru: '$ru',
-                            uz: '$uz',
-                            images: '$images',
-                            date: '$date'
-                        },
-                    }
-                }
-            ]).then(data => res.json(data))
-        }catch(err){
+            News.find().then(data => res.json(data))
+        } catch (err) {
             res.status(500).json({ message: "Ошибка сервера", err })
         }
     }
