@@ -3,9 +3,14 @@ const { Schema, model, ObjectId } = require("mongoose")
 const Materials = new Schema({
     translations: [
         {
-            language: { type: String, required: true },
-            value: { type: String, required: true },
-            key: { type: String, required: true },
+            ru: {
+                value: { type: String, required: true },
+                key: { type: String, required: true },
+            },
+            uz: {
+                value: { type: String, required: true },
+                key: { type: String, required: true },
+            }
         }
     ],
     date: {

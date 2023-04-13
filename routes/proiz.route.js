@@ -6,12 +6,11 @@ const authAdmin = require("../middleware/adminAuth");
 const auth = require("../middleware/auth.middleware");
 
 
-
 /* GET home page. */
-router.post('/create',  upload.array('iamges'), proizController.create);
-router.delete('/delete/:id', auth, authAdmin, proizController.delete)
+router.post('/create', upload.array('iamges'), proizController.create);
+router.delete('/delete/:id', proizController.delete)
 router.delete('/delete/image/:id/:iid', proizController.deleteImage)
-router.put('/update/:id', auth, authAdmin, upload.single('file'), proizController.update)
+router.put('/update/:id', upload.array('iamges'), proizController.update)
 router.get('/read/:id', proizController.read);
 router.get('/getall', proizController.getAll);
 module.exports = router;

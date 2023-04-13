@@ -6,7 +6,28 @@ class MaterialController {
             const { settings, proizId } = req.body;
             if (req.file !== undefined) {
                 const mater = new Materials({
-                    translations: settings,
+                    translations: [
+                        {
+                            ru: {
+                                "value": "ширина:22",
+                                "key": "26"
+                            },
+                            uz: {
+                                "value": "qweqweqw:222",
+                                "key": "26"
+                            }
+                        },
+                        {
+                            ru: {
+                                "value": "Талшиана:33",
+                                "key": "26"
+                            },
+                            uz: {
+                                "value": "qaliasdasdsanligi:222",
+                                "key": "26"
+                            }
+                        }
+                    ],
                     proizId: proizId,
                     images: {
                         name: req.file.filename,
@@ -31,21 +52,22 @@ class MaterialController {
             .then((data) => {
                 fs.unlinkSync(`./${data.images.path}`)
             })
-            .then(() => {
-
+            .then((data) => {
+                res.status(200).json({ message: "Удалился" });
             }).catch((err) => {
                 res.status(500).json({ message: "Ошибка сервера", err })
             })
     }
     async update(req, res) {
-        const { settings, proizId } = req.body;
+        console.log(req.body);
         try {
             if (req.file !== undefined) {
-                const newsId = await News.Materials(req.params.id);
-                fs.unlinkSync(`./${newsId.images.path}`)
-                await News.findOneAndUpdate(req.params.id, {
-                    translations: settings,
-                    proizId: proizId,
+                const meterId = await Materials.findById(req.params.id);
+                console.log(meterId);
+                fs.unlinkSync(`./${meterId.images.path}`)
+                await Materials.findOneAndUpdate(req.params.id, {
+                    translations: req.body.settings,
+                    proizId: req.body.proizId,
                     images: {
                         name: req.file.filename,
                         path: req.file.path
@@ -53,9 +75,9 @@ class MaterialController {
                 })
                 res.json({ msg: "Update Success" })
             } else {
-                await News.findOneAndUpdate(req.params.id, {
-                    translations: settings,
-                    proizId: proizId,
+                await Materials.findOneAndUpdate(req.params.id, {
+                    translations: req.body.settings,
+                    proizId: req.body.proizId,
                 })
                 res.json({ msg: "Update Success" })
             }
@@ -71,14 +93,21 @@ class MaterialController {
                 res.status(500).json({ message: "Ошибка сервера", err })
             })
     }
+    async getAllProiz(req, res) {
+        try {
+            Materials.find().populate('proizId').select('translations proizId date images').then(data => {
+                res.json(data);
+            }).catch(err => res.status(400).json({ message: "Ошибка при запросе", err }))
+        } catch (err) {
+            res.status(500).json({ message: "Ошибка сервера", err })
+        }
+    }
     async getAll(req, res) {
         try {
             Materials.find().then(data => {
-                res.status(200).json(data);
-            }).catch(err => {
-                res.status(400).json(err);
-            })
-        }catch(err){
+                res.json(data);
+            }).catch(err => res.status(400).json({ message: "Ошибка при запросе", err }))
+        } catch (err) {
             res.status(500).json({ message: "Ошибка сервера", err })
         }
     }

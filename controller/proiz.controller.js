@@ -13,7 +13,6 @@ const fileSizeFomatter = (bytes, decimal) => {
 };
 class ProizController {
     async create(req, res) {
-        console.log(req.files);
         try {
             const { titleUz, titleRu, textUz, textRu } = req.body;
             if (req.files !== undefined) {
@@ -73,10 +72,12 @@ class ProizController {
         }
     }
     async delete(req, res) {
+        await Proiz.findById(req.params.id).then(data => {
+            data.images.forEach((element) => {
+                fs.unlinkSync(`./${element.filePath}`);
+            });
+        })
         await Proiz.findOneAndRemove(req.params.id)
-            .then((data) => {
-                fs.unlinkSync(`./${data.images.path}`);
-            })
             .then(() => {
                 res.status(200).json({ message: "Удалился" });
             })
@@ -97,8 +98,21 @@ class ProizController {
         const { titleUz, titleRu, textUz, textRu } = req.body;
         try {
             if (req.files !== undefined) {
-                const proizId = await Proiz.findById(req.params.id);
-                fs.unlinkSync(`./${proizId.images.path}`);
+                await Proiz.findById(req.params.id).then(data => {
+                    data.images.forEach((element) => {
+                        fs.unlinkSync(`./${element.filePath}`);
+                    });
+                })
+                let filesArray = [];
+                req.files.forEach((element) => {
+                    const file = {
+                        fileName: element.originalname,
+                        filePath: element.path,
+                        fileType: element.mimetype,
+                        fileSize: fileSizeFomatter(element.size, 2),
+                    };
+                    filesArray.push(file);
+                });
                 await Proiz.findOneAndUpdate(req.params.id, {
                     ru: {
                         text: textRu,
@@ -108,10 +122,7 @@ class ProizController {
                         text: textUz,
                         title: titleUz,
                     },
-                    images: {
-                        name: req.file.filename,
-                        path: req.file.path,
-                    },
+                    images: filesArray,
                 });
                 res.json({ msg: "Update Success" });
             } else {
@@ -135,22 +146,64 @@ class ProizController {
         try {
             Proiz.aggregate([
                 {
+                    $lookup: {
+                        from: 'materials',
+                        localField: '_id',
+                        foreignField: 'proizId',
+                        as: 'materials'
+                    }
+                },
+                {
+                    $unwind: {
+                        path: '$materials'            // faqat shu movies borlarni ko'rsatadi
+                    }
+                },
+                {
                     $group: {
                         _id: {
-                            _id: "$_id",
-                            ru: "$ru",
-                            uz: "$uz",
-                            images: "$images",
-                            date: "$date",
-                            parametrs: "$parametrs",
+                            _id: '$_id',
+                            ru: '$ru',
+                            uz: '$ru',
                         },
-                    },
+                        materials: {
+                            $push: '$materials'
+                        }
+                    }
                 },
+                // { // qisqartirish uslubi 
+                //     $project: {
+                //         _id: '$_id._id',
+                //         trans: '$_id.translations',
+                //         ru: '$_id.ru',
+                //         uz: '$_id.uz',
+                //         materials: '$materials',
+                //     }
+                // }
             ]).then((data) => res.json(data));
         } catch (err) {
             res.status(500).json({ message: "Ошибка сервера", err });
         }
     }
+    // async getAll(req, res) {
+    //     try {
+    //         Proiz.aggregate([
+    //             {
+    //                 $group: {
+    //                     _id: {
+    //                         _id: "$_id",
+    //                         ru: "$ru",
+    //                         uz: "$uz",
+    //                         images: "$images",
+    //                         date: "$date",
+    //                         parametrs: "$parametrs",
+    //                     },
+    //                 },
+    //             },
+    //         ]).then((data) => res.json(data));
+    //     } catch (err) {
+    //         res.status(500).json({ message: "Ошибка сервера", err });
+    //     }
+    // }
 }
 
 module.exports = new ProizController();
