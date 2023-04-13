@@ -1,4 +1,5 @@
 const Proiz = require("../models/Proizvodstvo");
+const Materials = require("../models/Materials");
 const fs = require("fs");
 const fileSizeFomatter = (bytes, decimal) => {
     if (bytes === 0) {
@@ -86,14 +87,13 @@ class ProizController {
             });
     }
     async read(req, res) {
-        
-        await Proiz.findById(req.params.id)
-            .then((data) => {
-                res.status(200).json(data);
-            })
-            .catch((err) => {
-                res.status(500).json({ message: "Ошибка сервера", err });
-            });
+        try {
+            const oneProiz = await Proiz.findById(req.params.id)
+            const MateriProizv = await Materials.find({ proizId: req.params.id })
+            res.json({ oneProiz, MateriProizv })
+        } catch (err) {
+            res.status(500).json({ message: "Ошибка сервера", err });
+        }
     }
     async update(req, res) {
         const { titleUz, titleRu, textUz, textRu } = req.body;
@@ -127,8 +127,8 @@ class ProizController {
                 });
                 res.json({ msg: "Update Success" });
             } else {
-               const oneProizvod =  await Proiz.findById(req.params.id)
-               console.log(oneProizvod);
+                const oneProizvod = await Proiz.findById(req.params.id)
+                console.log(oneProizvod);
                 await Proiz.findOneAndUpdate(req.params.id, {
                     ru: {
                         text: textRu,
