@@ -163,9 +163,17 @@ class ProizController {
     }
     async getAll(req, res) {
         try {
-            Proiz.find().sort({date: -1}).then((data) => res.json(data));
+            Proiz.find().sort({ date: -1 }).then((data) => res.json(data));
         } catch (err) {
             res.status(500).json({ message: "Ошибка сервера", err });
+        }
+    }
+    async getfive(req, res) {
+        const { id } = req.params
+        try {
+           const proiz = await Proiz.find().limit(id).then(data => res.json(data))
+        } catch (err) {
+            res.status(500).json({ message: "Ошибка сервера", err })
         }
     }
 }

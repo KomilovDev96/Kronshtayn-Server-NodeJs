@@ -9,6 +9,7 @@ const auth = require("../middleware/auth.middleware");
 router.post('/create', auth, authAdmin, upload.single('file'), NewsController.create);
 router.get('/read/:id', NewsController.read);
 router.get('/getall', NewsController.getAll);
+router.get('/getall/:id', NewsController.getfive);
 router.delete('/delete/:id', auth, authAdmin, NewsController.delete)
 router.put('/update/:id', auth, authAdmin, upload.single('file'), NewsController.update)
 module.exports = router;

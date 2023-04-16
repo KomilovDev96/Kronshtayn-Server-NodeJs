@@ -12,7 +12,7 @@ class NewsController {
                 })
                 const newsertif = sert.save()
                 if (newsertif) {
-                    return res.json({ message: "success", sert})
+                    return res.json({ message: "success", sert })
                 }
             }
             else {
@@ -64,7 +64,15 @@ class NewsController {
 
     async getAll(req, res) {
         try {
-            Sertifacate.find().sort({date: -1}).then(data => res.json(data))
+            Sertifacate.find().sort({ date: -1 }).then(data => res.json(data))
+        } catch (err) {
+            res.status(500).json({ message: "Ошибка сервера", err })
+        }
+    }
+    async getfive(req, res) {
+        const { id } = req.params
+        try {
+            Sertifacate.find().limit(id).then(data => res.json(data))
         } catch (err) {
             res.status(500).json({ message: "Ошибка сервера", err })
         }

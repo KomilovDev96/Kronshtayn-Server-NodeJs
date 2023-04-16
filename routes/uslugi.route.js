@@ -6,9 +6,10 @@ const authAdmin = require("../middleware/adminAuth");
 const auth = require("../middleware/auth.middleware");
 
 /* GET home page. */
-router.post('/create',auth, authAdmin, upload.single('file'), UslugiController.create);
+router.post('/create', auth, authAdmin, upload.single('file'), UslugiController.create);
 router.get('/read/:id', UslugiController.read);
 router.get('/getall', UslugiController.getAll);
-router.delete('/delete/:id',auth, authAdmin, UslugiController.delete )
-router.put('/update/:id',auth, authAdmin, upload.single('file'), UslugiController.update )
+router.get('/getall/:id', UslugiController.getfive);
+router.delete('/delete/:id', auth, authAdmin, UslugiController.delete)
+router.put('/update/:id', auth, authAdmin, upload.single('file'), UslugiController.update)
 module.exports = router;

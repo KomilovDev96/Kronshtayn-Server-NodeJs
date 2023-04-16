@@ -13,6 +13,7 @@ router.delete('/delete/image/:id/:iid',auth, authAdmin, proizController.deleteIm
 router.put('/update/:id', auth, authAdmin, upload.array('iamges'), proizController.update)
 router.get('/read/:id', proizController.read);
 router.get('/getall', proizController.getAll);
+router.get('/getallFive/:id', proizController.getfive);
 router.get('/getall/mater', proizController.getAllMater);
 module.exports = router;
 

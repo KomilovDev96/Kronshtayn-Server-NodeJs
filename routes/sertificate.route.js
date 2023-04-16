@@ -11,4 +11,5 @@ router.put('/update/:id', auth, authAdmin, upload.single('file'), SertificateCon
 router.delete('/delete/:id', auth, authAdmin, SertificateController.delete)
 router.get('/read/:id', SertificateController.read);
 router.get('/getall', SertificateController.getAll);
+router.get('/getall/:id', SertificateController.getfive);
 module.exports = router;
