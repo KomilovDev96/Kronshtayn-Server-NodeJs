@@ -101,7 +101,6 @@ class PortfolioController {
     }
     async getfive(req, res) {
         const { id } = req.params
-        console.log(id);
         try {
             Portfolio.find().limit(id).then(data => res.json(data))
         } catch (err) {
